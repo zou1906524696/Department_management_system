@@ -87,18 +87,19 @@
 		    <artifactId>c3p0</artifactId>
 		    <version>0.9.5.2</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.15</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 		<dependency>
 		    <groupId>jstl</groupId>
 		    <artifactId>jstl</artifactId>
 		    <version>1.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>5.1.30</version>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.mortbay.jetty/servlet-api -->
 		<!-- <dependency>
 		    <groupId>org.mortbay.jetty</groupId>
