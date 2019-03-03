@@ -9,7 +9,7 @@ public class Employee {
     		,message= "用户名必须是2-5位中文或者6-16位英文与数字的组合")
     private String empName;
 
-    private String gender;
+	private String gender;
     
     @Pattern(regexp = "([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)"
     		,message= "邮箱格式不正确")
@@ -79,5 +79,11 @@ public class Employee {
 
 	public void setD_id(Integer d_id) {
 		this.d_id = d_id;
+	}
+	
+	@Override
+	public String toString() {
+		return "Employee [empId=" + empId + ", empName=" + empName + ", gender=" + gender + ", email=" + email
+				+ ", d_id=" + d_id + "]";
 	}
 }

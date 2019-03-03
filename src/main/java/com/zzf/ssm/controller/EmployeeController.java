@@ -1,13 +1,12 @@
 package com.zzf.ssm.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.junit.runners.Parameterized.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,14 +31,53 @@ public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 	
+	/*
+	
+	 * 查询按钮
+	 * */
+	@RequestMapping(value="/emp_search/{text}",method=RequestMethod.GET)
+	public String searchEmp(@PathVariable("text")String text, Model model){
+		List<Employee> emps = employeeService.selectEmp(text);
+		PageInfo page = new PageInfo(emps, 5);
+		model.addAttribute("pageInfo", page);
+		return "list";
+		
+	}
+	
+	
+	/**
+	 *单个与批量合在一起 
+	 * */
 	@ResponseBody
-	@RequestMapping(value="/emp/{id}",method=RequestMethod.PUT)
-	public Msg saveEmp(Employee employee){
-		employeeService.updateEmp(employee);
+	@RequestMapping(value="/emp/{ids}",method=RequestMethod.DELETE)
+	public Msg deleteEmpById(@PathVariable("ids")String ids){
+		//批量
+		if(ids.contains("-")){
+			List<Integer> del_ids = new ArrayList<Integer>();
+			String[] str_ids = ids.split("-");
+			for (String string : str_ids) {
+				del_ids.add(Integer.parseInt(string));
+			}
+			employeeService.deleteBatch(del_ids);
+		}else{
+			Integer id =Integer.parseInt(ids);
+			employeeService.deleteEmp(id);		
+		}
 		return Msg.success();
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping(value="/emp/{empId}",method=RequestMethod.PUT)
+	public Msg saveEmp(Employee employee){
+		System.out.println("将要更新的员工信息"+employee.toString());
+		employeeService.updateEmp(employee);
+		return Msg.success();
+	}
+	
+	/*
+	 *查询id员工 
+	 * */
 	@RequestMapping(value="/emp/{id}",method=RequestMethod.GET)
 	@ResponseBody
 	public Msg getEmp(@PathVariable("id")Integer id){

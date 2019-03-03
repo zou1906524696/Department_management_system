@@ -20,7 +20,6 @@ public class EmployeeService {
 	 * */
 	public List<Employee> getAll() {
 		// TODO Auto-generated method stub
-	
 		return employeeMapper.selectByExampleWithDept(null);
 	}
 	public void saveEmp(Employee employee) {
@@ -47,9 +46,27 @@ public class EmployeeService {
 		Employee employee = employeeMapper.selectByPrimaryKeyWithDept(id);
 		return employee;
 	}
+	//按照与id更新
 	public void updateEmp(Employee employee) {
 		// TODO Auto-generated method stub
 		employeeMapper.updateByPrimaryKeySelective(employee);
+	}
+	
+	//刪除
+	public void deleteEmp(Integer id) {
+		// TODO Auto-generated method stub
+		employeeMapper.deletePrimaryKey(id);
+	}
+	public void deleteBatch(List<Integer> ids) {
+		// TODO Auto-generated method stub
+		EmployeeExample example = new EmployeeExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andEmpIdIn(ids);
+		employeeMapper.deleteByExample(example);
+	}
+	public List<Employee> selectEmp(String text) {
+		// TODO Auto-generated method stub
+		return employeeMapper.selectEmp(text);
 	}
 
 }

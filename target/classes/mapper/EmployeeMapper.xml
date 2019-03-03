@@ -107,6 +107,14 @@
     </if>
   </select>
   
+   <select id="selectEmp" resultMap="WithDeptResultMap" parameterType="com.zzf.ssm.bean.Employee">
+  	select
+  	<include refid="WithDept_Column_List"/>
+  	    from employ e
+    	left join department d on e.d_id = d.id
+    	where emp_name like concat('%',#{name},'%')
+  </select>
+  
   <select id="selectByPrimaryKeyWithDept" resultMap="WithDeptResultMap">
   	select
   	<include refid="WithDept_Column_List"/>
@@ -135,6 +143,12 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
+    
+  </delete>
+  
+  <delete id="deletePrimaryKey" parameterType="Integer">
+    delete from employ
+    where emp_id = #{empId}
   </delete>
   
   <insert id="insert" parameterType="com.zzf.ssm.bean.Employee">
@@ -189,31 +203,25 @@
     </if>
   </select>
   
-  <update id="updateByPrimaryKeySelective" parameterType="map">
-    update employ
-    <set>
-      <if test="record.empId != null">
-        emp_id = #{record.empId,jdbcType=INTEGER},
-      </if>
-      <if test="record.empName != null">
-        emp_name = #{record.empName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.gender != null">
-        gender = #{record.gender,jdbcType=CHAR},
-      </if>
-      <if test="record.email != null">
-        email = #{record.email,jdbcType=VARCHAR},
-      </if>
-      <if test="record.d_id != null">
-        d_id = #{record.d_id,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-    where emp_id = #{empId,jdbcType=INTEGER}
-  </update>
-  
+ <update id="updateByPrimaryKeySelective" parameterType="com.zzf.ssm.bean.Employee">
+		update employ
+		<set>
+			<if test="empName != null">
+				emp_name = #{empName},
+			</if>
+			<if test="gender != null">
+				gender = #{gender},
+			</if>
+			<if test="email != null">
+				email = #{email},
+			</if>
+			<if test="d_id != null">
+				d_id = #{d_id},
+			</if>
+		</set>
+		where emp_id = #{empId}
+	</update>
+ 
   <update id="updateByExampleSelective" parameterType="map">
     update employ
     <set>
@@ -237,6 +245,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
   <update id="updateByExample" parameterType="map">
     update employ
     set emp_id = #{record.empId,jdbcType=INTEGER},
